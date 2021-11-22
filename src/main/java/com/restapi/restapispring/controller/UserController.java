@@ -7,7 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -46,6 +48,14 @@ public class UserController {
         user.setLastName(userDetails.getLastName());
         final User save = userRepository.save(user);
         return ResponseEntity.ok(save);
+    }
+
+    @DeleteMapping("users/{id}")
+    public Map<String, Boolean> deleteUser(@PathVariable(name = "id") Long userId){
+        userRepository.deleteById(userId);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+        return response;
     }
 
 }
